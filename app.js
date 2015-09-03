@@ -4,6 +4,24 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongodb = require('mongodb');
+var monk = require('monk');
+var os = require('os');
+var assert = require('assert');
+
+var config = {
+  "USER"    : "",           
+  "PASS"    : "",
+  "HOST"    : "ec2-52-88-172-28.us-west-2.compute.amazonaws.com",  
+  "PORT"    : "27017", 
+  "DATABASE" : "bocerapp"
+}
+var dbpath = "mongodb://"+config.USER + ":"+
+            config.PASS + "@"+
+            config.HOST + ":"+
+            config.PORT + "/"+
+            config.DATABASE;
+var db = monk(dbpath);
 
 var routes = require('./routes/index');
 var admin = require('./routes/admin');
@@ -21,6 +39,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//make db accessible
+app.use(function(req,res,next){
+  req.db = db;
+  next();
+})
+
+//functions for randering page and handle request
 app.use('/', routes);
 app.use('/admin',admin);
 
