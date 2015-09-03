@@ -1,0 +1,25 @@
+extends layout
+
+block othercss
+	link(rel='stylesheet', href='/stylesheets/admin.css')
+	script(type='text/javascript').
+		$(document).ready(function(){
+			var user,pwd;
+			$('#signin').click(function(){
+				user = $('#inputEmail').val();
+				pwd=$("#inputPassword").val();
+				$.post("/admin",{user: user,password: pwd}, function(data){
+					if(data==='yes') 
+						alert("login success");
+					});
+				});
+			});
+block content
+	.container
+		form.form-signin
+			h2.form-signin-heading Admin
+			label(for="inputEmail" class="sr-only") Admin Account
+			input(id="inputEmail" class="form-control" placeholder="Admin account" required autofocus)
+			label(for="inputPassword" class="sr-only") Password
+			input(type="password" id="inputPassword" class="form-control" placeholder="Password" required)
+			button.btn.btn-lg.btn-primary.btn-block(type="submit" id='signin') Sign in
