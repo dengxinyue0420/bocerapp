@@ -12,6 +12,7 @@ router.post('/addUser', function(req, res){
 	console.log('receive add user request');
 	console.log(req);
 	res.write("{out:'success'}");
+	console.log(res);
 	res.end();
 });
 
