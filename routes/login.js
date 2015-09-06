@@ -11,7 +11,7 @@ router.get('/addUser', function(req, res, next){
 router.post('/addUser', function(req, res, next){
 	console.log('receive add user request');
 	console.log(req);
-	res.send('receive add user request');
+	res.send('success');
 });
 
 router.get('/login', function(req, res, next){
