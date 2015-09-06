@@ -8,7 +8,7 @@ router.get('/addUser', function(req, res, next){
 	res.send('receive add user request');
 });
 
-router.post('/addUser', function(req, res, next){
+router.post('/addUser', function(req, res){
 	console.log('receive add user request');
 	console.log(req);
 	res.write("{out:'success'}");
