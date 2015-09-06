@@ -26,6 +26,8 @@ var db = mongoose.connect(dbpath);
 
 var routes = require('./routes/index');
 var admin = require('./routes/admin');
+var login = require('./routes/login');
+
 var app = express();
 
 // view engine setup
@@ -48,6 +50,7 @@ app.use(function(req,res,next){
 
 //functions for randering page and handle request
 app.use('/', routes);
+app.use('/', login);
 app.use('/admin',admin);
 
 // catch 404 and forward to error handler
