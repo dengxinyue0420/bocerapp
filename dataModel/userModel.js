@@ -1,12 +1,14 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var crypto = require('crypto');
+
 
 var userSchema = new Schema({
 	username:{type:String, require:true, unique:true},
 	firstName:{type:String, require:true},
 	lastName:{type:String, require:true},
 	password:{type:String, require:true},
-	//salt:{type:String,require:true},
+	salt:String,
 	creatDate: Date,
 	is_deleted: Boolean},
 	{

@@ -1,4 +1,5 @@
 var express = require('express');
+var crypto = require('crypto');
 var router = express.Router();
 var User = require('../dataModel/userModel');
 
@@ -8,13 +9,15 @@ router.post('/addUser', function(req, res){
 	var firstName = req.body.firstName;
 	var lastName = req.body.lastName;
 
-	//hash password here 
+	var salt = crypto.randomBytes(256).toString('base64');
+	var hashed = crypto.pbkdf2Sync(password,salt,12000,128).toString('hex');
 
 	var newUser = User({
 		username:username,
-		password:password,
+		password:hashed,
 		firstName:firstName,
-		lastName:lastName
+		lastName:lastName,
+		salt:salt
 	});
 	
 	newUser.save(function(err){
@@ -22,7 +25,6 @@ router.post('/addUser', function(req, res){
 		'Target Action':'signupresult',
 		'content':''};
 		if(err){
-			console.log(err);
 			if(err.code===11000){
 				out.content='exist';
 			}else{
@@ -38,19 +40,25 @@ router.post('/addUser', function(req, res){
 
 router.post('/login', function(req, res){
 	var username = req.body.username;
-	var password = req.body.username;
+	var password = req.body.password;
 
 	var out = {
 		'Target Action':'loginresult',
 		'content':''
-	};
+		};
 	User.find({username:username},function(err,users){
 		if(err)
 			out.content='fail';
 		else if(users.length===0){
+			console.log(username);
 			out.content='wrong';
 		}else{
-			out.content='success';
+			var salt = users[0].salt;
+			var truePwd = users[0].password;
+			var hashed = crypto.pbkdf2Sync(password,salt,12000,128).toString('hex');
+
+			if (hashed===truePwd){out.content='success';}
+			else{out.content='wrong';}
 		}
 		res.send(out);
 	})
@@ -75,7 +83,7 @@ router.post('/checkFacebook', function(req,res){
 	});
 });
 
-router.post('forgetPassword', function(req,res){
+router.post('/forgetPassword', function(req,res){
 	var username = req.body.username;
 	var out = {
 		'Target Action':'forgetresult',
