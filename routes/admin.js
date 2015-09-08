@@ -9,9 +9,10 @@ router.get('/', function(req, res, next) {
 router.post('/',function(req,res){
   var user_name=req.body.user;
   	var password=req.body.password;
-  	console.log("User name = "+user_name+", password is "+password);
   	Admin.find({user:user_name},function(err,user){
-  		console.log(user[0]);
+      if(err){
+        res.send('error');
+      }
   		if(user[0].password==password){
   			res.render("index",{title:'Bocer'});
   		}else{

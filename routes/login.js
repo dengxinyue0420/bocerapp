@@ -1,34 +1,58 @@
 var express = require('express');
 var router = express.Router();
-
-
-router.get('/addUser', function(req, res, next){
-	console.log('receive add user get request');
-	console.log(req.body);
-	res.send('receive add user request');
-});
+var User = require('../dataModel/userModel');
 
 router.post('/addUser', function(req, res){
-	console.log('receive add user request');
-	console.log(req);
-	var out = {
-		'message':'success'
-	};
-	res.send(out);
-	console.log(res);
-	res.end();
-});
+	var username = req.body.username;
+	var password = req.body.password;
+	var firstName = req.body.firstName;
+	var lastName = req.body.lastName;
 
-router.get('/login', function(req, res, next){
-	console.log('receive login get request');
-	console.log(req);
-	res.send('receive add user request');
+	//hash password here 
+
+	var newUser = User({
+		username:username,
+		password:password,
+		firstName:firstName,
+		lastName:lastName
+	});
+	
+	newUser.save(function(err){
+		var out = {
+		'Target Action':'signupresult',
+		'content':''};
+		if(err){
+			console.log(err);
+			if(err.code===11000){
+				out.content='exist';
+			}else{
+				out.content='fail';
+			}
+		}
+		else{
+			out.content='suceess';
+		}
+		res.send(out);
+	});
 });
 
 router.post('/login', function(req, res, next){
-	console.log('receive login request');
-	console.log(req);
-	res.send('receive add user request');
+	var username = req.body.username;
+	var password = req.body.username;
+
+	var out = {
+		'Target Action':'loginresult',
+		'content':''
+	}
+	User.find({username:username},{},function(err,users){
+		if(err)
+			out.content='fail';
+		else if(users.length===0){
+			out.content='wrong';
+		}else{
+			out.content='success';
+		}
+	})
 });
 
 module.exports = router;
