@@ -27,6 +27,7 @@ var db = mongoose.connect(dbpath);
 var routes = require('./routes/index');
 var admin = require('./routes/admin');
 var login = require('./routes/login');
+var profile = require('./routes/profile');
 
 var app = express();
 
@@ -42,16 +43,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-//make db accessible
-app.use(function(req,res,next){
-  req.db = db;
-  next();
-})
 
 //functions for randering page and handle request
 app.use('/', routes);
 app.use('/', login);
+app.use('/', profile);
 app.use('/admin',admin);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

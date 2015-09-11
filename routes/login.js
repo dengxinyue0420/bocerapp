@@ -2,6 +2,7 @@ var express = require('express');
 var crypto = require('crypto');
 var router = express.Router();
 var User = require('../dataModel/userModel');
+var Profile = require('../dataModel/profileModel');
 
 router.post('/addUser', function(req, res){
 	var username = req.body.username;
@@ -19,6 +20,13 @@ router.post('/addUser', function(req, res){
 		lastName:lastName,
 		salt:salt
 	});
+
+	var newProfile = Profile({
+		user_id: newUser._id,
+		username:username,
+		firstName:firstName,
+		lastName:lastName
+	});
 	
 	newUser.save(function(err){
 		var out = {
@@ -33,6 +41,9 @@ router.post('/addUser', function(req, res){
 		}
 		else{
 			out.content='success';
+			newProfile.save(function(err){
+				if(err) out.content = 'fail';
+			});
 		}
 		res.send(out);
 	});
@@ -50,7 +61,6 @@ router.post('/login', function(req, res){
 		if(err)
 			out.content='fail';
 		else if(users.length===0){
-			console.log(username);
 			out.content='wrong';
 		}else{
 			var salt = users[0].salt;
