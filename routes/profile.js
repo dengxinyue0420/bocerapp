@@ -31,6 +31,7 @@ router.post('/userbasicinfo', function(req,res){
 router.post('/addusersmallimage', function(req,res){
 	var username = req.body.username;
 	var image = req.body.imagestring;
+	console.log(image);
 	var out = {
 		'Target Action':'addusersmallimageresult',
 		'content':''
