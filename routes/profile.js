@@ -5,6 +5,7 @@ var User = require('../dataModel/userModel');
 var Profile = require('../dataModel/profileModel');
 
 router.get('/userbasicinfo', function(req,res){
+	console.log(req);
 	var username = req.query.username;
 	var out ={
 		'Target Action':'userbasicinfo',
