@@ -29,6 +29,7 @@ router.post('/userbasicinfo', function(req,res){
 });
 
 router.post('/addusersmallimage', function(req,res){
+	console.log(req);
 	var username = req.body.username;
 	var image = req.body.imagestring;
 	console.log(image);
