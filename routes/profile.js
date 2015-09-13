@@ -14,7 +14,7 @@ router.get('/userbasicinfo', function(req,res){
 		'imagestring':''
 	};
 	Profile.findOne({username:username},function(err,doc){
-		if(err) out.result = 'fail';
+		if(err) out.content = 'fail';
 		if(doc){
 			out.content = 'success';
 			out.firstname = doc.firstName;
