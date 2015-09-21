@@ -161,7 +161,7 @@ router.post('/reset/:token',function(req,res){
 			res.render('reset',{result:'error'});
 		}else{
 			var password = req.body.password;
-			user.password = password;
+			user.password = crypto.createHash('md5').update(password).digest('hex');
 			user.resetPwdToken = undefined;
 			user.resetPwdExpire = undefined;
 			user.save(function(err){
