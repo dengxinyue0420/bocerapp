@@ -4,6 +4,7 @@ var router = express.Router();
 var User = require('../dataModel/userModel');
 var Profile = require('../dataModel/profileModel');
 var nodemailer = require('nodemailer');
+crypto.DEFAULT_ENCODING = 'binary';
 
 var transporter = nodemailer.createTransport({
     service: 'gmail',

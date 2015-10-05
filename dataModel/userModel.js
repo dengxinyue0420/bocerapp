@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var crypto = require('crypto');
-
+crypto.DEFAULT_ENCODING = 'binary';
 
 var userSchema = new Schema({
 	username:{type:String, require:true, unique:true},

@@ -9,7 +9,7 @@ var profileSchema = new Schema({
 	firstName:{type:String, require:true},
 	lastName:{type:String, require:true},
 	image:{type:String},
-	creatDate: Date,
+	createDate: Date,
 	is_deleted: Boolean},
 	{
 		collection:'profiles'
@@ -17,7 +17,7 @@ var profileSchema = new Schema({
 
 profileSchema.pre('save',function(next){
 	var date = new Date();
-	this.creatDate = date;
+	this.createDate = date;
 	this.is_deleted = false;
 
 	next();

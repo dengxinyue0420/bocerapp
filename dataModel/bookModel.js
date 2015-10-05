@@ -14,7 +14,7 @@ var bookSchema = new Schema({
 	price:{type:Number, require:true},
 	loc:{type:[Number], require:true},
 	state:{type:Number, default:0},
-	creatDate: Date,
+	createDate: Date,
 	is_deleted: Boolean},
 	{
 		collection:'books'
@@ -22,7 +22,7 @@ var bookSchema = new Schema({
 
 bookSchema.pre('save',function(next){
 	var date = new Date();
-	this.creatDate = date;
+	this.createDate = date;
 	this.is_deleted = false;
 
 	next();
