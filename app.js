@@ -28,6 +28,7 @@ var routes = require('./routes/index');
 var admin = require('./routes/admin');
 var login = require('./routes/login');
 var profile = require('./routes/profile');
+var book = require('./routes/book');
 
 var app = express();
 
@@ -48,6 +49,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/', login);
 app.use('/', profile);
+app.use('/', book);
 app.use('/admin',admin);
 
 
