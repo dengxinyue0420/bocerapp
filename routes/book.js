@@ -4,7 +4,7 @@ var Book = require('../dataModel/bookModel');
 var User = require('../dataModel/userModel');
 
 /* GET home page. */
-router.get('/addbook', function(req, res) {
+router.post('/addbook', function(req, res) {
   	var image = [req.body.image1,req.body.image2,req.body.image3];
   	var loc = [req.body.locationX,req.body.locationY];
   	var user = User.findOne({username:req.body.username});
