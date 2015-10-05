@@ -16,7 +16,7 @@ router.get('/addbook', function(req, res) {
 		edition:req.body.edition,
 		ISBN:req.body.ISBN,
 		className:req.body.className,
-		price.req.body.price,
+		price:req.body.price,
 		image:image,
 		loc:loc
   	});
